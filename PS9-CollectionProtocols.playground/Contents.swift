@@ -81,20 +81,19 @@ class SegmentGenerator: GeneratorType {
     // Each pair is another segment. See the definition of Segment. It's just a named tuple.
     func next() -> Segment? {
         
-        var placeHolder = 0
         
-        while locationTrack.locations.count > placeHolder {
+        if index < locationTrack.locations.count-1 {
             
-            let currentLocation = locationTrack.locations[placeHolder]
-            let nextLocation = locationTrack.locations[placeHolder+1]
+            let currentLocation = locationTrack.locations[index]
+            let nextLocation = locationTrack.locations[index+1]
             
-            placeHolder += 1
+            index += 1
             return (currentLocation, nextLocation)
             
-        }
+        } else {
         return nil
     }
-
+    }
 }
 
 struct SegmentSequence: SequenceType {
