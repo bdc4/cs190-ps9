@@ -41,13 +41,16 @@ struct LocationTrack {
     // of each segment.
     var totalLength: CLLocationDistance {
         // This function is completely broken. It always returns 0. Do the right
-        // calculation by uncommenting the next four lines and doint the right summation
+        // calculation by uncommenting the next four lines and doing the right summation
         // in the body of the for loop. Then return the result of the summation instead of 0.
-        // var result: CLLocationDistance = 0
-        // let segmentSequence = SegmentSequence(locationTrack: self)
-        // for segment in segmentSequence {
-        // }
-        return 0
+        
+        //FIXED IMPLEMENTATION
+        var result: CLLocationDistance = 0
+        let segmentSequence = SegmentSequence(locationTrack: self)
+        for segment in segmentSequence {
+            result += segment.start.distanceFromLocation(segment.end)
+        }
+        return result
     }
     
     // Just so you have an example to peruse, here is a function that returns an array
@@ -77,9 +80,18 @@ class SegmentGenerator: GeneratorType {
     // then (locations[1], locations[2]), (locations[2], locations[3]), et cetera.
     // Each pair is another segment. See the definition of Segment. It's just a named tuple.
     func next() -> Segment? {
-        // The generator is completely broken. It always returns nil. Fix it.
-        // Don't change anything else! There are of course plenty of ways to get the
-        // right result. The point of this problem set is get the results using generators.
+        
+        var placeHolder = 0
+        
+        while locationTrack.locations.count > placeHolder {
+            
+            let currentLocation = locationTrack.locations[placeHolder]
+            let nextLocation = locationTrack.locations[placeHolder+1]
+            
+            placeHolder += 1
+            return (currentLocation, nextLocation)
+            
+        }
         return nil
     }
 
